@@ -4,16 +4,47 @@
 	<meta charset="UTF-8">
 	<title>Simon Game</title>
 	<link rel="stylesheet" href="styles.css">
+	<link href="https://fonts.googleapis.com/css?family=Orbitron|Viga" rel="stylesheet">
+	<script
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous"></script>
 </head>
 <body>
+
 	<div class="container">
 		<div class="simonCircle">
-			<div class="innerCircle white"></div>
+			<div class="innerCircle white">
+				<h1>SIMON<span>®</span></h1>
+				<div class="buttons">
+					<div class="countBox">
+						<p>count</p>
+						<div class="count">--</div>
+					</div>
+					<div>
+						<p>start</p>
+						<div class="start"></div>
+					</div>
+					<div>
+						<p>strict</p>
+						<div class="strict"></div>
+					</div>
+				</div>
+				<div class="toggleBox">
+					<label class="tgl tgl-gray" >  
+    					<input type="checkbox"  />
+    					<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+ 					</label>
+ 					<p>off&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;on</p>
+ 				</div>
+				
+			</div>
 			<div class="green color"></div>
 			<div class="red color"></div>
 			<div class="yellow color"></div>
 			<div class="blue color"></div>
 		</div>
 	</div>
+	<script src="main.js"></script>
 </body>
 </html>
