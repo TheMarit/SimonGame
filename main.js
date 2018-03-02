@@ -1,6 +1,8 @@
 var colors = document.getElementsByClassName("color");
 var start = document.getElementById("start");
 var count = document.getElementById("count");
+var checkbox = document.getElementById("checkbox");
+var strict = document.getElementById("strict");
 
 var game = {
 	colors: ["green", "red", "yellow", "blue"],
@@ -8,42 +10,57 @@ var game = {
 	computerStreak: [],
 	playerStreak: [],
 	playersTurn: false,
-	count: 0
+	count: 0,
+	on: false,
+	strict: false,
+	reset: function(){
+		this.computerStreak = [];
+		this.playerStreak = [];
+		this.playersTurn = false;
+		this.count = 0;
+		count.innerHTML = (("0" + this.count).slice(-2));
+	},
+	wrongAnswer: function(){
+		new Audio("http://soundbible.com/mp3/Buzz-SoundBible.com-1790490578.mp3").play();
+	}
 }
 
+checkbox.addEventListener( 'change', function() {
+	if(checkbox.checked){
+		game.on = true;
+		count.style.color = "#DE393A"
+	} else{
+		game.on = false;
+		game.reset();
+		game.strict = false;
+		strict.classList.remove("on");
+		count.style.color = "#420811";
+		count.innerHTML = ("--");
+	}
+});
+
+strict.addEventListener( 'click', function() {
+	if(game.on){
+		switchStrict();
+	}
+});
+
 start.addEventListener("click", startGame);
+
 
 for(var i=0; i< colors.length; i++){
 	colors[i].addEventListener("click", checkForStreakMatch )
 }
-function wrong(){
-	new Audio("http://soundbible.com/mp3/Buzz-SoundBible.com-1790490578.mp3").play();
+
+function switchStrict(){
+	game.strict = !game.strict;
+	strict.classList.toggle("on");
 }
 
-function checkForStreakMatch(){
-	currentButton = this;
-	game.playerStreak.push(currentButton.id);
-	lightUp(currentButton.id);
-
-	for(var i=0; i<game.playerStreak.length; i++){
-		if(game.playerStreak[i] !== game.computerStreak[i]){
-			wrong()
-			game.playerStreak = [];
-			displayComputerStreak();
-			return;
-		}
-	}
-
-	if(game.computerStreak.length === game.playerStreak.length){
-		game.playerStreak = [];
+function startGame(){
+	if(game.on){
 		computersTurn();
-	} 
-}
-
-function playersTurnMove(){
-	currentButton = this;
-	lightUp(currentButton.id);
-	game.playerStreak.push(currentButton.id);
+	}
 }
 
 function lightUp(color){
@@ -59,27 +76,33 @@ function pickColor() {
 	return game.colors[Math.floor((Math.random() * game.colors.length))];
 }
 
-function startGame(){
-	computersTurn();
+function checkForStreakMatch(){
+	if(game.on && game.playersTurn){
+		currentButton = this;
+		game.playerStreak.push(currentButton.id);
+		lightUp(currentButton.id);
 
-}
+		for(var i=0; i<game.playerStreak.length; i++){
+			if(game.playerStreak[i] !== game.computerStreak[i]){
+				game.wrongAnswer()
+				if(game.strict){
+					game.reset()
+					setTimeout(function(){ computersTurn(); }, 2000);
+				} else{
+					game.playerStreak = [];
+					setTimeout(function(){ displayComputerStreak(); }, 2000);
+				}
+				return;
+			}
+		}
 
-function computersTurn(){
-	addToComputerStreak();
-	displayComputerStreak();
-}
-
-function displayComputerStreak(){
-	for(let i=0, p = Promise.resolve(); i<game.computerStreak.length; i++){
-			p = p.then(_ => new Promise(resolve =>
-	        setTimeout(function () {
-	            lightUp(game.computerStreak[i]);
-	            resolve();
-	        }, 1000)
-	    ));
+		if(game.computerStreak.length === game.playerStreak.length){
+			game.playerStreak = [];
+			game.playersTurn = false;
+			setTimeout(function(){ computersTurn(); }, 1000);
+		} 
 	}
 }
-
 
 function addToComputerStreak(){
 	var color = pickColor();
@@ -87,3 +110,29 @@ function addToComputerStreak(){
 	game.count++
 	count.innerHTML = (("0" + game.count).slice(-2));
 }
+
+function displayComputerStreak(){
+	var p = Promise.resolve()
+	for(let i=0; i<game.computerStreak.length; i++){
+		p = p.then(_ => new Promise(resolve =>
+			
+	        setTimeout(function () {
+	            lightUp(game.computerStreak[i]);
+	            resolve();
+	            if(game.computerStreak.length == i+1){
+	        		game.playersTurn = true;
+	        	}
+	        }, 1000)
+	        
+	    ));
+	}
+}
+
+function computersTurn(){
+	addToComputerStreak();
+	displayComputerStreak();
+}
+
+
+
+
