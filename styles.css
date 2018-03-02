@@ -52,31 +52,45 @@ h1 span{
 	border-color: black;
 	border-style: solid;
 	box-sizing: border-box;
+	transition: background 0.5s;
+
 }
-.red{
+.blink{
+/*	transition-delay: 1s;*/
+}
+#red{
 	background: #b92b2b;
 	border-radius: 0 100% 0 0;
 	border-width: 26px 26px 13px 13px;
 }
-.blue{
+#red.blink{
+	background: #ff4141;
+}
+#blue{
 	background: #2a6aca;
 	border-radius: 0 0 100% 0;
 	border-width: 13px 26px 26px 13px;
-
-
 }
-.green{
+#blue.blink{
+	background: #3aa4ff;
+}
+#green{
 	background: #4aab4a;
 	border-radius: 100% 0 0 0;
 	border-width: 26px 13px 13px 26px;
-
 }
-.yellow{
-	background: #ffc800;
+#green.blink{
+	background: #60e460;
+}
+#yellow{
+	background: #eaac00 ;
 	border-radius: 0 0 0 100%;
 	border-width: 13px 13px 26px 26px;
 }
-.count{
+#yellow.blink{
+	background: #fff040;
+}
+#count{
 	padding: 0 5px;
 	background: #303030;
 	color: #DE393A;
@@ -90,7 +104,7 @@ h1 span{
 	text-align: center;
 	margin: 0;
 }
-.start{
+#start{
 	width: 20px;
 	height: 20px;
 	background: yellow;
@@ -98,7 +112,7 @@ h1 span{
 	border-radius: 50%;
 	margin: 8px auto;
 }
-.strict{
+#strict{
 	width: 20px;
 	height: 20px;
 	background: #bd0000;
