@@ -68,7 +68,11 @@ function lightUp(color){
 	currentColor.className += " blink";
 	new Audio(game.sound[color]).play();
 	setTimeout(function(){ 
-		currentColor.classList.remove("blink"); 
+		var elems = document.getElementsByClassName("blink");
+		[].forEach.call(elems, function(el) {
+			el.classList.remove("blink");
+		})
+ 
 	}, 500);
 }
 
@@ -85,6 +89,7 @@ function checkForStreakMatch(){
 		for(var i=0; i<game.playerStreak.length; i++){
 			if(game.playerStreak[i] !== game.computerStreak[i]){
 				game.wrongAnswer()
+				game.playersTurn = false;
 				if(game.strict){
 					game.reset()
 					setTimeout(function(){ computersTurn(); }, 2000);
@@ -95,7 +100,6 @@ function checkForStreakMatch(){
 				return;
 			}
 		}
-
 		if(game.computerStreak.length === game.playerStreak.length){
 			game.playerStreak = [];
 			game.playersTurn = false;
@@ -115,20 +119,26 @@ function displayComputerStreak(){
 	var p = Promise.resolve()
 	for(let i=0; i<game.computerStreak.length; i++){
 		p = p.then(_ => new Promise(resolve =>
-			
 	        setTimeout(function () {
 	            lightUp(game.computerStreak[i]);
 	            resolve();
 	            if(game.computerStreak.length == i+1){
 	        		game.playersTurn = true;
 	        	}
-	        }, 1000)
-	        
+	        }, 750)
 	    ));
 	}
 }
 
 function computersTurn(){
+	if(game.count === 20){
+		new Audio("http://soundbible.com/mp3/Ta Da-SoundBible.com-1884170640.mp3").play();
+		setTimeout(function(){ 
+			game.reset();
+			computersTurn();
+		}, 2000);
+		return
+	}
 	addToComputerStreak();
 	displayComputerStreak();
 }
