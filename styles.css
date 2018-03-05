@@ -1,17 +1,13 @@
-
 @font-face {
     font-family: 'digital-7_monomono';
     src: url('digital-7_mono-webfont.woff2') format('woff2'),
          url('digital-7_mono-webfont.woff') format('woff');
     font-weight: normal;
     font-style: normal;
-
 }
 
 body{
-	background-image: url(floor.jpg);
-	background-repeat: no-repeat;
-    background-size: cover;
+	background: #ccc;
 }
 
 .simonCircle{
@@ -30,16 +26,16 @@ body{
 	border-radius: 50%;
 	margin: auto;
 	position: absolute;
-	height: 250px;
-	width: 250px;
+	height: 275px;
+	width: 275px;
 	background: #d8d8d8;
-	border: 26px solid black;
+	border: 20px solid black;
 	font-family: 'Viga', sans-serif;
 }
 h1{
 	text-align: center;
 	font-size: 60px;
-	margin: 30px 0 0 10px;
+	margin: 30px 0 10px 10px;
 }
 h1 span{
 	text-align: center;
@@ -55,13 +51,10 @@ h1 span{
 	transition: background 0.5s;
 
 }
-.blink{
-/*	transition-delay: 1s;*/
-}
 #red{
 	background: #b92b2b;
 	border-radius: 0 100% 0 0;
-	border-width: 26px 26px 13px 13px;
+	border-width: 20px 20px 10px 10px;
 }
 #red.blink{
 	background: #ff4141;
@@ -69,7 +62,7 @@ h1 span{
 #blue{
 	background: #2a6aca;
 	border-radius: 0 0 100% 0;
-	border-width: 13px 26px 26px 13px;
+	border-width: 10px 20px 20px 10px;
 }
 #blue.blink{
 	background: #3aa4ff;
@@ -77,7 +70,7 @@ h1 span{
 #green{
 	background: #4aab4a;
 	border-radius: 100% 0 0 0;
-	border-width: 26px 13px 13px 26px;
+	border-width: 20px 10px 10px 20px;
 }
 #green.blink{
 	background: #60e460;
@@ -85,7 +78,7 @@ h1 span{
 #yellow{
 	background: #eaac00 ;
 	border-radius: 0 0 0 100%;
-	border-width: 13px 13px 26px 26px;
+	border-width: 10px 10px 20px 20px;
 }
 #yellow.blink{
 	background: #fff040;
@@ -134,10 +127,13 @@ h1 span{
 /*Toggle*/
 .toggleBox{
 	text-align: center;
-	margin: 10px;
+	margin: 30px;
+	display: flex;
+	justify-content: center;
 }
 .toggleBox p {
 	margin: 0;
+	line-height: 28px;
 }
 
 .tgl {
@@ -146,7 +142,7 @@ h1 span{
   display: inline-block;
   cursor: pointer;
   user-select: none;
-  margin: auto;
+  margin: 0 10px;
   box-sizing: border-box;
 }
 
@@ -197,4 +193,66 @@ h1 span{
 .tgl input[type="checkbox"]:checked + span:after {
   background: #ffffff;
   left: 100%;
+}
+
+@media screen and (max-width: 650px), screen and (max-height: 630px) {
+	.simonCircle{
+		height: 350px;
+		width: 350px;
+		box-shadow:  0 10px 20px 0 rgba(0, 0, 0, 0.5), 0 23px 60px 0 rgba(0, 0, 0, 0.4);
+	}
+	.innerCircle{
+		height: 175px;
+		width: 175px;
+		border: 6px solid black;
+	}
+	h1{
+		font-size: 40px;
+		margin: 20px 0 0 10px;
+	}
+	h1 span{
+		font-size: 15px;
+	}
+	.color{
+		height: 175px;
+		width: 175px;
+	}
+	#red{
+		border-width: 6px 6px 3px 3px;
+	}
+	#blue{
+		border-width: 3px 6px 6px 3px;
+	}
+	#green{
+		border-width: 6px 3px 3px 6px;
+	}
+	#yellow{
+		border-width: 3px 3px 6px 6px;
+	}
+	#count{
+		font-size: 34px;
+		height: 30px;
+		width: 32px;
+	}
+	.buttons p{
+		font-size: 14px;
+	}
+	#start{
+		border: 3px solid #404040;
+		margin: 5px auto;
+	}
+	#strict{
+		border: 3px solid #404040;
+		margin: 5px auto;
+	}
+	.tgl{
+		font-size: 10px;
+	}
+	.toggleBox p{
+		line-height: 17px;
+	}
+	.toggleBox{
+		margin: 10px;
+	}
+
 }
