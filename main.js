@@ -21,7 +21,22 @@ var game = {
 		count.innerHTML = (("0" + this.count).slice(-2));
 	},
 	wrongAnswer: function(){
+		clearTimeout(game.timer);
 		new Audio("http://soundbible.com/mp3/Buzz-SoundBible.com-1790490578.mp3").play();
+	},
+	switchStrict: function (){
+		this.strict = !this.strict;
+		strict.classList.toggle("on");
+	},
+	timeIsUp: function(){
+		new Audio("http://soundbible.com/mp3/Beep-SoundBible.com-923660219.mp3").play();
+		if(game.strict){
+			game.reset()
+			setTimeout(function(){ computersTurn(); }, 2000);
+		} else{
+			game.playerStreak = [];
+			displayComputerStreak();
+		}
 	}
 }
 
@@ -30,6 +45,7 @@ checkbox.addEventListener( 'change', function() {
 		game.on = true;
 		count.style.color = "#DE393A"
 	} else{
+		clearTimeout(game.timer);
 		game.on = false;
 		game.reset();
 		game.strict = false;
@@ -39,28 +55,20 @@ checkbox.addEventListener( 'change', function() {
 	}
 });
 
-strict.addEventListener( 'click', function() {
+strict.addEventListener( "click", function() {
 	if(game.on){
-		switchStrict();
+		game.switchStrict();
 	}
 });
 
-start.addEventListener("click", startGame);
-
+start.addEventListener("click", function() {
+	if(game.on){	
+		computersTurn();
+	}
+});
 
 for(var i=0; i< colors.length; i++){
 	colors[i].addEventListener("click", checkForStreakMatch )
-}
-
-function switchStrict(){
-	game.strict = !game.strict;
-	strict.classList.toggle("on");
-}
-
-function startGame(){
-	if(game.on){
-		computersTurn();
-	}
 }
 
 function lightUp(color){
@@ -81,11 +89,12 @@ function pickColor() {
 }
 
 function checkForStreakMatch(){
+	clearTimeout(game.timer);
 	if(game.on && game.playersTurn){
+		game.timer = setTimeout(game.timeIsUp, 5000);
 		currentButton = this;
 		game.playerStreak.push(currentButton.id);
 		lightUp(currentButton.id);
-
 		for(var i=0; i<game.playerStreak.length; i++){
 			if(game.playerStreak[i] !== game.computerStreak[i]){
 				game.wrongAnswer()
@@ -124,6 +133,7 @@ function displayComputerStreak(){
 	            resolve();
 	            if(game.computerStreak.length == i+1){
 	        		game.playersTurn = true;
+	        		game.timer = setTimeout(game.timeIsUp, 5000);
 	        	}
 	        }, 750)
 	    ));
@@ -139,10 +149,7 @@ function computersTurn(){
 		}, 2000);
 		return
 	}
+	clearTimeout(game.timer);
 	addToComputerStreak();
 	displayComputerStreak();
 }
-
-
-
-
